@@ -8,6 +8,7 @@
 
 import requests
 import json
+import pytest
 
 
 class Endereco: 
@@ -46,8 +47,10 @@ class Endereco:
         '''
         # continuam existindo variaveis locais, nem tudo é propriedade de objeto
 
+
         # end point da API de consulta ao cep
         url_api = f'https://viacep.com.br/ws/{str(cep)}/json/'
+
 
         # Sem corpo na requisição
         # Não é necessario nenhum cabeçalho HTTP especial
@@ -57,9 +60,19 @@ class Endereco:
         # requisição GET na url de pesquisa do cep. Doc.: https://viacep.com.br/
         response = requests.request("GET", url_api, headers=headers, data=payload)
 
+        try:
+
         # converte a resposta json em dict
-        json_resp = response.json()
+            json_resp = response.json()
+        
+        except:
+            return False
+
         return json_resp
+
+
+    def __str__(self):
+       return f'{self.cidade}, {self.estado}, {self.rua}, {self.numero}, {self.cep}'
 
 
 

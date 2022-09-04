@@ -7,12 +7,18 @@
 # ---------------------------------------------------------------------------
 from classes.PessoaFisica import PessoaFisica
 from classes.Endereco import Endereco
+from classes.Produto import Produto
+from classes.Carrinho import Carrinho
+from classes.Pedido import Pedido
+from classes.Pagamentos import Pagamento
+
+
 
 import copy
 
 # Caso de uso em que se busca uma pessoa e um produto
 # Cria uma pessoa 
-pessoa1 = PessoaFisica('Carlos', 'tiago@email.com', '524.222.452-6')
+pessoa1 = PessoaFisica('524.222.452-6', 'tiago@email.com', 'Carlos')
 print(pessoa1)
 
 # Cria  um endereço
@@ -27,11 +33,11 @@ print(end2)
 pessoa1.adicionar_endereco('casa', end1)
 
 print("Endereços da pessoa")
-print(pessoa1.listar_enderecos())
+pessoa1.listar_enderecos()
 
 pessoa1.adicionar_endereco('trabalho', end2)
 print("Endereços da pessoa após inclusão")
-print(pessoa1.listar_enderecos())
+pessoa1.listar_enderecos()
 
 # Criando um produto
 sabonete = Produto("0010342967", "Sabonete")
@@ -40,30 +46,36 @@ sabonete = Produto("0010342967", "Sabonete")
 # Fim do setup
 ###########################################
 
-pessoas = PessoaFisica.busca_nome('Carlos')
+pessoas = PessoaFisica.buscar_nome('Carlos')
 if len(pessoas) > 0:
     pessoa = pessoas[0]  #Pega a primeira pessoa
+print(pessoas)
 
 
-produtos = Produto.busca_nome("sabon")
+produtos = Produto.buscar_nome("sabon")
 
 if len(produtos) > 0: 
     produto = produtos[0]
 
+print(produtos)
+
 
 carrinho = Carrinho()
-carrinho.adicionar_item(sabonete)
+carrinho.adicionar_item(sabonete, 2)
+print(carrinho)
 
-pedido = Pedido()
 
-ends = pessoa.listar_enderecos()
+pedido = Pedido(pessoas, carrinho)
 
-if len(ends > 0):
+ends = (pessoa1.listar_enderecos())
+
+
+if len(ends) > 0:
     endereco = ends[0]
 
 # Lembre-se de adicionar estes atributos ao endereço
 pedido.endereco_entrega = copy.deepcopy(endereco) 
-pedido.endereco_faturamento = copy.deepcopy(endreco)
+pedido.endereco_faturamento = copy.deepcopy(endereco)
 
 
 pag = Pagamento(pedido)
